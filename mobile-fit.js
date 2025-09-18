@@ -1,11 +1,12 @@
 
+// mobile-fit.js (mobile-only, margin-optimized)
 (function(){
   function fitPage(){
     var isMobile = window.matchMedia("(max-width: 820px)").matches;
     var html = document.documentElement;
     var body = document.body;
 
-    // Reset base
+    // Reset
     html.style.overflow = "";
     body.style.overflow = "";
     body.style.margin = "";
@@ -13,7 +14,10 @@
 
     var root = document.getElementById("page-root");
     if(!isMobile){
-      if(root){ root.style.transform=""; root.style.width=""; }
+      if(root){
+        root.style.transform = "";
+        root.style.width = "";
+      }
       return;
     }
 
@@ -37,27 +41,44 @@
     var H = root.scrollHeight;
     if(!W || !H){ return; }
 
-    // width-fit to remove side margins
-    var scale = vw / W;
+    // Compute width- and height-based scales
+    var sW = vw / W;
+    var sH = vh / H;
 
-    // Ensure header is visible in portrait
-    var header = document.querySelector("header, .header, .navbar, nav");
-    var headerH = header ? (header.scrollHeight || header.clientHeight || 0) : 0;
-    if(headerH > 0){
-      var sHeader = vh / headerH;
-      scale = Math.min(scale, sHeader);
+    // Strategy:
+    // 1) Prefer width-fit to remove left/right margins.
+    // 2) If height would overflow >10% of viewport, fall back to height-fit.
+    var scale = sW;
+    var projectedH = H * scale;
+    if(projectedH > vh * 1.10){
+      scale = sH;
     }
 
+    // Keep side margins <= 8px by nudging scale up (bounded by width fit)
+    var maxScaleByWidth = sW;
+    var minMargin = 8; // px per side target
+    var contentW = W * scale;
+    var side = (vw - contentW) / 2;
+    if(side > minMargin){
+      // We can safely increase scale up to width-fit
+      var needed = (vw - 2*minMargin) / W;
+      scale = Math.min(maxScaleByWidth, Math.max(scale, needed));
+    }
+
+    // Compute final offsets
     var finalW = W * scale;
     var finalH = H * scale;
+    var dx = Math.max(0, (vw - finalW) / 2);
+    var dy = Math.max(0, (vh - finalH) / 2);
 
-    var dx = 0; // zero side margin
-    var dy = finalH > vh ? 0 : Math.max(0, (vh - finalH)/2);
+    // If still taller than viewport, align to top to avoid big top gap
+    if(finalH > vh){ dy = 0; }
 
     root.style.transformOrigin = "top left";
     root.style.transform = "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
     root.style.width = W + "px";
 
+    // Manage scroll
     if(finalH > vh){
       html.style.overflowY = "auto";
       body.style.overflowY = "auto";
