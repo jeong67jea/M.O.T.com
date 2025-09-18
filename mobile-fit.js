@@ -1,9 +1,7 @@
 
-// mobile-fit.js (mobile-only, portrait header-fit & zero side margin)
 (function(){
   function fitPage(){
     var isMobile = window.matchMedia("(max-width: 820px)").matches;
-    var isPortrait = window.matchMedia("(orientation: portrait)").matches;
     var html = document.documentElement;
     var body = document.body;
 
@@ -40,35 +38,26 @@
     if(!W || !H){ return; }
 
     // width-fit to remove side margins
-    var sW = vw / W;
-    var scale = sW;
+    var scale = vw / W;
 
-    // If portrait, ensure header (navbar) is fully visible within viewport height
-    if(isPortrait){
-      // try to find a header-like element
-      var header = document.querySelector("header, .header, .navbar, nav");
-      var headerH = header ? (header.scrollHeight || header.clientHeight || 0) : 0;
-      if(headerH > 0){
-        var sHeader = vh / headerH; // scale needed so header fits in viewport height
-        // We cannot exceed width-fit (otherwise side margins would appear), so take min
-        scale = Math.min(scale, sHeader);
-      }
+    // Ensure header is visible in portrait
+    var header = document.querySelector("header, .header, .navbar, nav");
+    var headerH = header ? (header.scrollHeight || header.clientHeight || 0) : 0;
+    if(headerH > 0){
+      var sHeader = vh / headerH;
+      scale = Math.min(scale, sHeader);
     }
 
-    // Final projected sizes
     var finalW = W * scale;
     var finalH = H * scale;
 
-    // Zero side margins: align left (dx=0) and rely on width-fit scale so finalW ~= vw
-    var dx = 0;
-    // Vertical placement: if taller than viewport, stick to top; otherwise center vertically
-    var dy = finalH > vh ? 0 : Math.max(0, (vh - finalH) / 2);
+    var dx = 0; // zero side margin
+    var dy = finalH > vh ? 0 : Math.max(0, (vh - finalH)/2);
 
     root.style.transformOrigin = "top left";
     root.style.transform = "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
     root.style.width = W + "px";
 
-    // Scroll handling
     if(finalH > vh){
       html.style.overflowY = "auto";
       body.style.overflowY = "auto";
