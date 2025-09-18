@@ -1,39 +1,32 @@
 
-// mobile-fit.js (mobile-only)
+// mobile-fit.js (mobile-only, portrait header-fit & zero side margin)
 (function(){
   function fitPage(){
     var isMobile = window.matchMedia("(max-width: 820px)").matches;
+    var isPortrait = window.matchMedia("(orientation: portrait)").matches;
     var html = document.documentElement;
     var body = document.body;
 
-    // Reset defaults on every call
+    // Reset base
     html.style.overflow = "";
     body.style.overflow = "";
     body.style.margin = "";
     body.style.height = "";
 
-    // If not mobile, ensure any previous wrapper keeps no transform
-    var ex = document.getElementById("page-root");
+    var root = document.getElementById("page-root");
     if(!isMobile){
-      if(ex){
-        ex.style.transform = "";
-        ex.style.width = "";
-      }
+      if(root){ root.style.transform=""; root.style.width=""; }
       return;
     }
 
-    // Wrap existing children in #page-root if not present
-    var root = document.getElementById("page-root");
     if(!root){
       root = document.createElement("div");
       root.id = "page-root";
-      while(body.firstChild){
-        root.appendChild(body.firstChild);
-      }
+      while(body.firstChild){ root.appendChild(body.firstChild); }
       body.appendChild(root);
     }
 
-    // clear previous transforms to measure
+    // Clear transform to measure natural size
     root.style.transform = "";
     root.style.transformOrigin = "top left";
     root.style.width = "";
@@ -42,24 +35,47 @@
 
     var vw = window.innerWidth;
     var vh = window.innerHeight;
-    var naturalWidth = root.scrollWidth;
-    var naturalHeight = root.scrollHeight;
-    if(naturalWidth === 0 || naturalHeight === 0){ return; }
+    var W = root.scrollWidth;
+    var H = root.scrollHeight;
+    if(!W || !H){ return; }
 
-    var scaleX = vw / naturalWidth;
-    var scaleY = vh / naturalHeight;
-    var scale = Math.min(scaleX, scaleY);
+    // width-fit to remove side margins
+    var sW = vw / W;
+    var scale = sW;
 
-    // Centering
-    var dx = Math.max(0, (vw - naturalWidth * scale) / 2);
-    var dy = Math.max(0, (vh - naturalHeight * scale) / 2);
+    // If portrait, ensure header (navbar) is fully visible within viewport height
+    if(isPortrait){
+      // try to find a header-like element
+      var header = document.querySelector("header, .header, .navbar, nav");
+      var headerH = header ? (header.scrollHeight || header.clientHeight || 0) : 0;
+      if(headerH > 0){
+        var sHeader = vh / headerH; // scale needed so header fits in viewport height
+        // We cannot exceed width-fit (otherwise side margins would appear), so take min
+        scale = Math.min(scale, sHeader);
+      }
+    }
+
+    // Final projected sizes
+    var finalW = W * scale;
+    var finalH = H * scale;
+
+    // Zero side margins: align left (dx=0) and rely on width-fit scale so finalW ~= vw
+    var dx = 0;
+    // Vertical placement: if taller than viewport, stick to top; otherwise center vertically
+    var dy = finalH > vh ? 0 : Math.max(0, (vh - finalH) / 2);
 
     root.style.transformOrigin = "top left";
     root.style.transform = "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
-    root.style.width = naturalWidth + "px";
+    root.style.width = W + "px";
 
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
+    // Scroll handling
+    if(finalH > vh){
+      html.style.overflowY = "auto";
+      body.style.overflowY = "auto";
+    }else{
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    }
     body.style.height = vh + "px";
     body.style.background = "#ffffff";
   }
