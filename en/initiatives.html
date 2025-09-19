@@ -623,6 +623,40 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   padding-top: 0 !important;
 }
 </style>
+
+<style id="mobile-onepage-compact-v8">
+@media (orientation: portrait), (max-width: 480px){
+  header.navbar .inner{ display:flex !important; flex-wrap:nowrap !important; align-items:center;
+    gap:6px; overflow-x:auto !important; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+  header.navbar .inner::-webkit-scrollbar{ display:none; }
+  header.navbar nav.primary{ flex:0 0 auto !important; }
+  header.navbar nav.primary .menu{ display:flex !important; flex-wrap:nowrap !important; gap:6px; }
+  header.navbar nav.primary .menu>li{ flex:0 0 auto !important; }
+  header.navbar nav.primary .menu>li>a{ font-size:9px !important; padding:2px 6px !important; line-height:1.15; white-space:nowrap !important; font-weight:700; }
+  header.navbar .lang{ display:flex !important; gap:4px; }
+  header.navbar .lang a{ font-size:8.8px !important; padding:2px 5px !important; }
+  header.navbar .site-search{ display:none !important; }
+  .hero, .carousel, .hero-slider, #hero, .slides, .swiper, .swiper-container{ height:18vh !important; min-height:150px !important; border-radius:0; }
+  .leader-banner{ height:8vh !important; min-height:72px !important; display:flex; align-items:center; justify-content:center; }
+  .cards-3, .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin:8px 0; }
+  .cards-3 .card{ border:1px solid #e6e9f0; border-radius:6px; overflow:hidden; background:#fff; }
+  .cards-3 .card img{ width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+  .cards-3 .card .title{ font-size:10px; font-weight:700; padding:4px 6px 1px; }
+  .cards-3 .card .desc{ font-size:9.2px; color:#555; padding:0 6px 6px; line-height:1.25; }
+  .icon-strip{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:8px 0; }
+  .icon-strip .item{ text-align:center; border:1px solid #eef1f6; border-radius:6px; padding:6px 4px; }
+  .icon-strip .item img{ width:24px; height:24px; object-fit:contain; margin:0 auto 4px; display:block; }
+  .icon-strip .item .label{ font-size:9px; line-height:1.22; }
+  html{ font-size:12.5px; } body{ line-height:1.32; }
+  h1{ font-size:16px; } h2{ font-size:14px; } h3{ font-size:12.5px; }
+  p, li{ font-size:12px; }
+  section, main>section, .content>section{ margin:6px 0 !important; padding:6px 0 !important; }
+  .container, .section, .box, .panel, .card{ padding:8px; }
+  .container, .wrap, main, .content, .leader-banner, .cards-3, .icon-strip{ width:100% !important; max-width:100% !important; }
+}
+.page-scale{ transform-origin: top center; width:100%; }
+.page-scale[data-scale]{ --s: attr(data-scale number); transform: scale(var(--s)); width: calc(100% / var(--s)); }
+</style>
 </head><body>
 <header class="navbar">
 <div class="inner">
@@ -643,7 +677,8 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 </form>
 </div>
 </div>
-</header><div aria-label="mein imiji kaereosel" class="hc-slider"><button aria-label="ijeon" class="hc-prev">‹</button><div class="hc-track"><figure class="hc-slide"><img alt="slide 1" src="../assets/main1.JPG?lang=en"/><figcaption class="hc-caption">Consulting that leads the era of AI!</figcaption></figure><figure class="hc-slide"><img alt="slide 2" src="../assets/main2.JPG?lang=en"/><figcaption class="hc-caption">Consulting to expand eco‑friendly business for the future!</figcaption></figure><figure class="hc-slide"><img alt="slide 3" src="../assets/main3.JPG?lang=en"/><figcaption class="hc-caption">Consulting that pursues happiness with your family!</figcaption></figure></div><button aria-label="daeup" class="hc-next">›</button><div class="hc-dots"></div></div><div class="page"><section class="section" id="initiatives"><h2>Initiatives</h2><figure class="section-photo"></figure>
+</header>
+<div id="pageScale" class="page-scale"><div aria-label="mein imiji kaereosel" class="hc-slider"><button aria-label="ijeon" class="hc-prev">‹</button><div class="hc-track"><figure class="hc-slide"><img alt="slide 1" src="../assets/main1.JPG?lang=en"/><figcaption class="hc-caption">Consulting that leads the era of AI!</figcaption></figure><figure class="hc-slide"><img alt="slide 2" src="../assets/main2.JPG?lang=en"/><figcaption class="hc-caption">Consulting to expand eco‑friendly business for the future!</figcaption></figure><figure class="hc-slide"><img alt="slide 3" src="../assets/main3.JPG?lang=en"/><figcaption class="hc-caption">Consulting that pursues happiness with your family!</figcaption></figure></div><button aria-label="daeup" class="hc-next">›</button><div class="hc-dots"></div></div><div class="page"><section class="section" id="initiatives"><h2>Initiatives</h2><figure class="section-photo"></figure>
 <ul>
 <li>Discovery of new businesses through big data and corporate environmental analysis.</li>
 <li>Digital design standards and process building consulting.</li>
@@ -997,49 +1032,47 @@ function siteSearch(e){
 })();
 </script>
 <script src="mobile-fit.js"></script>
-<style id="mobile-compact-nav-v6">
-@media (orientation: portrait), (max-width: 991.98px){
-  html{ font-size:14px !important; } body{ line-height:1.35 !important; }
-  header.navbar .inner{ display:flex !important; flex-wrap:nowrap !important; align-items:center !important; gap:8px !important;
-    overflow-x:auto !important; -webkit-overflow-scrolling:touch; white-space:nowrap !important; width:100% !important; max-width:100% !important; }
-  header.navbar .inner::-webkit-scrollbar{ display:none; }
-  header.navbar nav.primary{ flex:0 0 auto !important; }
-  header.navbar nav.primary .menu{ display:flex !important; flex-wrap:nowrap !important; gap:10px !important; }
-  header.navbar nav.primary .menu > li{ flex:0 0 auto !important; position:relative !important; }
-  header.navbar nav.primary .menu > li > a{ font-size:12px !important; padding:4px 6px !important; white-space:nowrap !important; }
-  header.navbar .lang{ display:flex !important; flex-direction:row !important; gap:6px !important; }
-  header.navbar .lang a{ font-size:11px !important; padding:4px 6px !important; width:auto !important; white-space:nowrap !important; }
-  header.navbar .site-search{ max-width:140px !important; }
-}
-@media (max-width: 360px){ header.navbar .site-search{ display:none !important; } }
-</style>
+</div>
 
-
-<script id="mobile-submenu-toggle">
+<script id="mobile-onepage-helper-v8">
 (function(){
+  function fitOneScreen(){
+    var wrap = document.getElementById('pageScale');
+    if(!wrap) return;
+    wrap.removeAttribute('data-scale');
+    var natural = wrap.scrollHeight;
+    var vh = window.innerHeight;
+    var s = Math.min(1, Math.max(0.62, vh / natural)); // 최소 62%까지 축소 허용
+    wrap.setAttribute('data-scale', s.toFixed(3));
+  }
+  window.addEventListener('load', fitOneScreen, {passive:true});
+  window.addEventListener('resize', fitOneScreen, {passive:true});
+  window.addEventListener('orientationchange', function(){ setTimeout(fitOneScreen, 250); }, {passive:true});
+
   try{
     var isTouch = window.matchMedia('(hover: none)').matches || ('ontouchstart' in window);
-    if(!isTouch) return;
-    var nav = document.querySelector('header.navbar nav.primary');
-    if(!nav) return;
-    var items = nav.querySelectorAll('.menu > li');
-    items.forEach(function(li){
-      var a = li.querySelector(':scope > a');
-      var submenu = li.querySelector(':scope > .submenu');
-      if(!a || !submenu) return;
-      a.addEventListener('click', function(e){
-        var href = (a.getAttribute('href')||'').trim();
-        if(href === '' || href === '#' || href === 'javascript:void(0)'){ e.preventDefault(); }
-        var isOpen = li.classList.contains('open');
-        items.forEach(function(other){ if(other!==li) other.classList.remove('open'); });
-        li.classList.toggle('open', !isOpen);
-      }, {passive:false});
-    });
-    document.addEventListener('click', function(evt){
-      var clickedInside = nav.contains(evt.target);
-      if(!clickedInside){ items.forEach(function(li){ li.classList.remove('open'); }); }
-    });
-  }catch(err){}
+    if(isTouch){
+      var nav = document.querySelector('header.navbar nav.primary');
+      if(nav){
+        var items = nav.querySelectorAll('.menu > li');
+        items.forEach(function(li){
+          var a = li.querySelector(':scope > a');
+          var submenu = li.querySelector(':scope > .submenu');
+          if(!a || !submenu) return;
+          a.addEventListener('click', function(e){
+            var href = (a.getAttribute('href')||'').trim();
+            if(href==='' || href==='#' || href==='javascript:void(0)') e.preventDefault();
+            var open = li.classList.contains('open');
+            items.forEach(function(o){ if(o!==li) o.classList.remove('open'); });
+            li.classList.toggle('open', !open);
+          }, {passive:false});
+        });
+        document.addEventListener('click', function(evt){
+          if(!nav.contains(evt.target)) items.forEach(function(li){ li.classList.remove('open'); });
+        });
+      }
+    }
+  }catch(e){}
 })();
 </script>
 </body></html>
