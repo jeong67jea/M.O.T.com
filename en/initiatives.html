@@ -623,43 +623,6 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   padding-top: 0 !important;
 }
 </style>
-
-<style id="mobile-horizontal-nav">
-@media (orientation: portrait){
-  header.navbar{ position: sticky; top:0; z-index: 9999 !important; }
-  header.navbar .inner{
-    display:flex !important;
-    flex-wrap: nowrap !important;
-    align-items:center !important;
-    gap:8px !important;
-    overflow-x:auto !important;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    width:100% !important; max-width:100% !important;
-    white-space:nowrap !important;
-  }
-  header.navbar .inner::-webkit-scrollbar{ display:none; }
-  header.navbar .brand,
-  header.navbar nav.primary,
-  header.navbar .lang,
-  header.navbar .site-search{ flex:0 0 auto !important; white-space:nowrap !important; }
-  header.navbar nav.primary .menu{
-    display:flex !important;
-    flex-wrap:nowrap !important;
-    gap:10px !important;
-  }
-  header.navbar nav.primary .menu > li{ flex:0 0 auto !important; }
-  header.navbar nav.primary .menu > li > a{
-    padding:6px 8px !important;
-    font-size:clamp(12px,3.2vw,14px) !important;
-    white-space:nowrap !important;
-  }
-  header.navbar .menu .submenu{
-    position:absolute !important; top:100% !important; left:0 !important; z-index:99999 !important;
-  }
-}
-</style>
-
 </head><body>
 <header class="navbar">
 <div class="inner">
@@ -1033,4 +996,50 @@ function siteSearch(e){
   });
 })();
 </script>
-<script src="mobile-fit.js"></script></body></html>
+<script src="mobile-fit.js"></script>
+<style id="mobile-compact-nav-v6">
+@media (orientation: portrait), (max-width: 991.98px){
+  html{ font-size:14px !important; } body{ line-height:1.35 !important; }
+  header.navbar .inner{ display:flex !important; flex-wrap:nowrap !important; align-items:center !important; gap:8px !important;
+    overflow-x:auto !important; -webkit-overflow-scrolling:touch; white-space:nowrap !important; width:100% !important; max-width:100% !important; }
+  header.navbar .inner::-webkit-scrollbar{ display:none; }
+  header.navbar nav.primary{ flex:0 0 auto !important; }
+  header.navbar nav.primary .menu{ display:flex !important; flex-wrap:nowrap !important; gap:10px !important; }
+  header.navbar nav.primary .menu > li{ flex:0 0 auto !important; position:relative !important; }
+  header.navbar nav.primary .menu > li > a{ font-size:12px !important; padding:4px 6px !important; white-space:nowrap !important; }
+  header.navbar .lang{ display:flex !important; flex-direction:row !important; gap:6px !important; }
+  header.navbar .lang a{ font-size:11px !important; padding:4px 6px !important; width:auto !important; white-space:nowrap !important; }
+  header.navbar .site-search{ max-width:140px !important; }
+}
+@media (max-width: 360px){ header.navbar .site-search{ display:none !important; } }
+</style>
+
+
+<script id="mobile-submenu-toggle">
+(function(){
+  try{
+    var isTouch = window.matchMedia('(hover: none)').matches || ('ontouchstart' in window);
+    if(!isTouch) return;
+    var nav = document.querySelector('header.navbar nav.primary');
+    if(!nav) return;
+    var items = nav.querySelectorAll('.menu > li');
+    items.forEach(function(li){
+      var a = li.querySelector(':scope > a');
+      var submenu = li.querySelector(':scope > .submenu');
+      if(!a || !submenu) return;
+      a.addEventListener('click', function(e){
+        var href = (a.getAttribute('href')||'').trim();
+        if(href === '' || href === '#' || href === 'javascript:void(0)'){ e.preventDefault(); }
+        var isOpen = li.classList.contains('open');
+        items.forEach(function(other){ if(other!==li) other.classList.remove('open'); });
+        li.classList.toggle('open', !isOpen);
+      }, {passive:false});
+    });
+    document.addEventListener('click', function(evt){
+      var clickedInside = nav.contains(evt.target);
+      if(!clickedInside){ items.forEach(function(li){ li.classList.remove('open'); }); }
+    });
+  }catch(err){}
+})();
+</script>
+</body></html>
