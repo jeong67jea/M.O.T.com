@@ -1043,9 +1043,39 @@ function siteSearch(e){
 })();
 </script>
 <!-- === Daily-Top10 임베드 === -->
-<div class="embed-wrap">
-<iframe allow="autoplay; clipboard-read; clipboard-write" id="dailyTop10Frame" loading="eager" referrerpolicy="no-referrer-when-downgrade" src="https://jeong67jea.github.io/daily-top10/#start" style="width:100%;border:0;display:block;min-height:60vh;" title="daily-top10"></iframe>
-</div>
+<section class="viewport-center">
+  <div class="embed-wrap">
+    <div class="embed">
+      <iframe
+        id="dailyTop10Frame"
+        title="daily-top10"
+        src="https://jeong67jea.github.io/daily-top10/#start"
+        loading="eager"
+        allow="autoplay; clipboard-read; clipboard-write"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+.viewport-center{
+  min-height: 0dvh;     /* 모바일 주소창 높이 대응 */
+  display: grid;
+  place-items: center;     /* 가로+세로 중앙 */
+  padding: 16px;
+}
+
+.embed-wrap{ max-width: 1200px; width: 100%; }
+.embed{
+  position: relative; width: 100%;
+  aspect-ratio: 16 / 9; min-height: 60vh; overflow: hidden;
+  background: #f7f9fc; border-radius: 10px;
+}
+.embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+</style>
+
 <script>
 (function(){
   var f = document.getElementById('dailyTop10Frame');
