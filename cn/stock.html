@@ -51,7 +51,7 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   padding-top: 0 !important;
 }
 </style>
-</head><body>
+<link href="auto_fit_mobile_only.css" rel="stylesheet"/></head><body>
 <!DOCTYPE html>
 
 <html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>MOT</title><style>
@@ -1044,21 +1044,12 @@ function siteSearch(e){
 </script>
 <!-- === Daily-Top10 임베드 === -->
 <section class="viewport-center">
-  <div class="embed-wrap">
-    <div class="embed">
-      <iframe
-        id="dailyTop10Frame"
-        title="daily-top10"
-        src="https://jeong67jea.github.io/daily-top10/#start"
-        loading="eager"
-        allow="autoplay; clipboard-read; clipboard-write"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-      ></iframe>
-    </div>
-  </div>
+<div class="embed-wrap">
+<div class="embed">
+<iframe allow="autoplay; clipboard-read; clipboard-write" allowfullscreen="" id="dailyTop10Frame" loading="eager" referrerpolicy="no-referrer-when-downgrade" src="https://jeong67jea.github.io/daily-top10/#start" title="daily-top10"></iframe>
+</div>
+</div>
 </section>
-
 <style>
 .viewport-center{
   min-height: 0dvh;     /* 모바일 주소창 높이 대응 */
@@ -1075,7 +1066,6 @@ function siteSearch(e){
 }
 .embed iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
 </style>
-
 <script>
 (function(){
   var f = document.getElementById('dailyTop10Frame');
@@ -1287,8 +1277,6 @@ function siteSearch(e){
 }
 @media (max-width: 360px){ header.navbar .site-search{ display:none !important; } }
 </style>
-
-
 <script id="mobile-submenu-toggle">
 (function(){
   try{
@@ -1316,7 +1304,6 @@ function siteSearch(e){
   }catch(err){}
 })();
 </script>
-
 <style id="mot-mobile-compact-v1c">
 @media (max-width: 991.98px), (orientation: portrait){
   /* Ensure header chain never clips the submenu */
@@ -1375,7 +1362,6 @@ function siteSearch(e){
   }
 }
 </style>
-
 <script id="mot-mobile-submenu-toggle-v1c">
 (function(){
   try{
@@ -1404,4 +1390,105 @@ function siteSearch(e){
   }catch(e){}
 })();
 </script>
-</body></html>
+<script>/* === Mobile-only Auto-Fit & Submenu-Fit, Desktop hard reset === */
+(function(){
+  const BP = 992;
+  const root = document.querySelector('#pageScale');
+  if(!root) return;
+
+  const vv = ()=> window.visualViewport;
+  const vw = ()=> (vv()? vv().width  : innerWidth);
+  const vh = ()=> (vv()? vv().height : innerHeight);
+
+  function headerH(){
+    const hdr = root.querySelector('header, header.navbar, .header, #header');
+    if(hdr){ const r = hdr.getBoundingClientRect(); if(r.height>0) return r.height; }
+    const v = getComputedStyle(root).getPropertyValue('--nav-h').trim();
+    const n = parseFloat(v); return Number.isFinite(n) ? n : 56;
+  }
+
+  function ensureWrap(){
+    let wrap = root.querySelector(':scope > .__fitwrap');
+    if(!wrap){
+      wrap = document.createElement('div'); wrap.className='__fitwrap';
+      const isHeader = el => el?.matches?.('header, header.navbar, .header, #header');
+      const moving=[];
+      Array.from(root.childNodes).forEach(node=>{
+        if(!(node instanceof HTMLElement)){ moving.push(node); return; }
+        if(isHeader(node)) return;
+        moving.push(node);
+      });
+      moving.forEach(n=>wrap.appendChild(n));
+      root.appendChild(wrap);
+    }
+    return wrap;
+  }
+
+  function desktopReset(){
+    const wrap = root.querySelector(':scope > .__fitwrap');
+    if(wrap){
+      while (wrap.firstChild) root.insertBefore(wrap.firstChild, wrap);
+      wrap.remove();
+    }
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.height = '';
+    document.body.style.height = '';
+    document.querySelectorAll('#pageScale .menu .submenu').forEach(m=>{
+      m.style.transform = '';
+      m.style.overflow  = '';
+      m.style.maxHeight = '';
+    });
+  }
+
+  function applyFit(){
+    const wrap = ensureWrap(); if(!wrap) return;
+    wrap.style.transform = 'none';
+    wrap.style.width = '100%';
+    const availH = Math.max(1, vh() - headerH());
+    const contentW = wrap.scrollWidth  || wrap.getBoundingClientRect().width;
+    const contentH = wrap.scrollHeight || wrap.getBoundingClientRect().height;
+    let s = Math.min(availH / Math.max(1,contentH), vw() / Math.max(1,contentW));
+    if(s > 1) s = 1; if(!(s>0)) s = 1;
+    wrap.style.transform = 'scale('+s+')';
+    wrap.style.width = (100 / s) + '%';
+  }
+
+  function fitSubmenus(){
+    const h = headerH();
+    const availH = Math.max(1, vh() - h - 8), availW = vw() - 8;
+    document.querySelectorAll('#pageScale .menu > li .submenu').forEach(menu=>{
+      const cs = getComputedStyle(menu);
+      if(cs.display==='none' || cs.visibility==='hidden') return;
+      menu.style.transform = 'none';
+      const r = menu.getBoundingClientRect();
+      let s = Math.min(availH / Math.max(1,r.height), availW / Math.max(1,r.width));
+      if(s > 1) s = 1; if(!(s>0)) s = 1;
+      menu.style.transform = 'scale('+s+')';
+    });
+  }
+
+  let raf;
+  function schedule(){
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(()=>{
+      if (vw() > BP){
+        desktopReset();
+      } else {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        applyFit();
+        fitSubmenus();
+      }
+    });
+  }
+
+  addEventListener('load', schedule);
+  addEventListener('resize', schedule);
+  addEventListener('orientationchange', schedule);
+  if(window.visualViewport) visualViewport.addEventListener('resize', schedule);
+  document.addEventListener('click', ()=> setTimeout(schedule, 0), true);
+  new MutationObserver(()=> setTimeout(schedule,0)).observe(document.body, {subtree:true, childList:true, attributes:true});
+
+  schedule();
+})();</script></body></html>
