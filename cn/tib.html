@@ -4,12 +4,20 @@
 
 <style>
 @media screen and (max-width: 768px) {
-  body {
-    transform: scale(0.35);
-    transform-origin: top left;
-    width: 280%;
-    height: auto;
-    overflow-x: hidden;
+  nav ul {
+    display: flex;
+    flex-wrap: nowrap;       /* 줄바꿈 방지 */
+    justify-content: center; /* 한 줄 중앙 정렬 */
+    overflow: hidden;
+  }
+  nav ul li {
+    font-size: 11px;   /* 글자 크기 축소 */
+    margin: 0 3px;     /* 좌우 간격 최소화 */
+  }
+  .lang-selector {
+    display: flex;
+    justify-content: center; /* 중앙 배치 */
+    margin: 0 auto;
   }
 }
 </style>
