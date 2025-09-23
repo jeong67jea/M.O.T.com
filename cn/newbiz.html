@@ -4,20 +4,26 @@
 
 <style>
 @media screen and (max-width: 768px) {
+  /* 상단 메뉴 항상 한 줄 */
   nav ul {
     display: flex;
-    flex-wrap: nowrap;       /* 줄바꿈 방지 */
-    justify-content: center; /* 한 줄 중앙 정렬 */
+    flex-wrap: nowrap;
+    justify-content: center;
     overflow: hidden;
+    white-space: nowrap;
   }
   nav ul li {
-    font-size: 11px;   /* 글자 크기 축소 */
-    margin: 0 3px;     /* 좌우 간격 최소화 */
+    font-size: 10px;   /* 더 축소 */
+    margin: 0 2px;     /* 최소 간격 */
+    padding: 0 2px;
   }
-  .lang-selector {
-    display: flex;
-    justify-content: center; /* 중앙 배치 */
-    margin: 0 auto;
+
+  /* 서브메뉴 축소 및 캐러셀 위 표시 */
+  nav ul li .submenu {
+    font-size: 10px;
+    max-width: 90vw;   /* 화면 너비 제한 */
+    z-index: 9999;     /* 캐러셀보다 항상 위 */
+    position: relative;
   }
 }
 </style>
