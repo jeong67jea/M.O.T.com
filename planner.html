@@ -3,23 +3,35 @@
 <html lang="ko"><head>
 
 <style>
-/* 공통: 서브메뉴 hover로 표시 */
-nav ul li:hover .submenu {
-  display: block !important;
+/* 스크롤 방지 */
+html, body {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  margin: 0;
+  padding: 0;
 }
 
 /* 메뉴와 서브메뉴 최상위 */
 header, nav {
   position: relative;
-  z-index: 10000 !important;
+  z-index: 9999 !important;
 }
+
+/* 서브메뉴 기본 */
 nav ul li .submenu {
   display: none;
-  position: absolute !important;
+  position: absolute;
   top: 100%;
   left: 0;
-  z-index: 10001 !important; /* 캐러셀 위로 */
   background: white;
+  z-index: 10000 !important;
+  min-width: 150px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* hover 시 표시 */
+nav ul li:hover > .submenu {
+  display: block !important;
 }
 
 /* 캐러셀 레이어 낮춤 */
@@ -35,20 +47,7 @@ nav ul li .submenu {
     transform-origin: top left;
     width: 285%;
     height: auto;
-    overflow-x: hidden;
   }
-
-  .container, .main, .content, .box, .section, .footer {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: block !important;
-  }
-  img {
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
   nav ul {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -56,7 +55,7 @@ nav ul li .submenu {
     white-space: nowrap !important;
   }
   nav ul li {
-    font-size: 10px !important;   /* 모바일은 10px */
+    font-size: 10px !important;
     margin: 0 2px !important;
     padding: 0 2px !important;
     line-height: 1.2 !important;
@@ -64,7 +63,6 @@ nav ul li .submenu {
   }
   nav ul li .submenu {
     font-size: 10px !important;
-    padding: 2px 4px !important;
   }
 }
 
@@ -75,15 +73,14 @@ nav ul li .submenu {
     justify-content: center;
   }
   nav ul li {
-    font-size: 14px !important;   /* 모든 페이지 동일하게 14px */
+    font-size: 14px !important;
     margin: 0 8px;
     padding: 0 4px;
     position: relative;
   }
   nav ul li .submenu {
-    font-size: 14px !important;   /* PC 서브메뉴도 동일하게 14px */
+    font-size: 14px !important;
   }
-
   .container, .main, .content, .box, .section, .footer {
     margin-left: auto;
     margin-right: auto;
