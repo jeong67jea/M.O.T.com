@@ -10,14 +10,26 @@
     width: 285%;
     height: auto;
     overflow-x: hidden;
-    text-align: center;   /* 홈 화면 콘텐츠 중앙 유지 */
   }
 
+  /* 캐러셀 밑 그림, 박스만 중앙 정렬 */
+  .container, .main, .content, .box {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* 이미지 중앙 정렬 */
+  img {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* 메뉴 */
   nav ul {
     display: flex !important;
     flex-wrap: nowrap !important;
     justify-content: center !important;
-    overflow: visible !important;
     white-space: nowrap !important;
   }
   nav ul li {
