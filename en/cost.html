@@ -8,6 +8,26 @@ nav ul li:hover .submenu {
   display: block !important;
 }
 
+/* 메뉴와 서브메뉴 최상위 */
+header, nav {
+  position: relative;
+  z-index: 10000 !important;
+}
+nav ul li .submenu {
+  display: none;
+  position: absolute !important;
+  top: 100%;
+  left: 0;
+  z-index: 10001 !important; /* 캐러셀 위로 */
+  background: white;
+}
+
+/* 캐러셀 레이어 낮춤 */
+.carousel, .slider, .hero {
+  position: relative;
+  z-index: 1 !important;
+}
+
 /* 모바일 전용 */
 @media screen and (max-width: 768px) {
   body {
@@ -43,15 +63,8 @@ nav ul li:hover .submenu {
     position: relative;
   }
   nav ul li .submenu {
-    display: none;
     font-size: 10px !important;
     padding: 2px 4px !important;
-    z-index: 9999 !important;
-    position: absolute !important;
-    background: white !important;
-  }
-  nav ul li:hover .submenu {
-    display: block !important; /* hover 시 표시 */
   }
 }
 
@@ -68,14 +81,7 @@ nav ul li:hover .submenu {
     position: relative;
   }
   nav ul li .submenu {
-    display: none;
     font-size: 14px !important;   /* PC 서브메뉴도 동일하게 14px */
-    position: absolute;
-    background: white;
-    z-index: 9999;
-  }
-  nav ul li:hover .submenu {
-    display: block;   /* 마우스 오버 시 표시 */
   }
 
   .container, .main, .content, .box, .section, .footer {
