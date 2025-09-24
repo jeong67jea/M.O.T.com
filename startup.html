@@ -5,11 +5,33 @@
 <style>
 @media screen and (max-width: 768px) {
   body {
-    transform: scale(0.3);
+    transform: scale(0.35);
     transform-origin: top left;
-    width: 333%;
+    width: 285%;
     height: auto;
     overflow-x: hidden;
+    text-align: center;   /* 홈 화면 콘텐츠 중앙 유지 */
+  }
+
+  nav ul {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+  nav ul li {
+    font-size: 8px !important;
+    margin: 0 2px !important;
+    padding: 0 2px !important;
+    line-height: 1.2 !important;
+  }
+  nav ul li .submenu {
+    font-size: 8px !important;
+    padding: 2px 4px !important;
+    z-index: 9999 !important;
+    position: absolute !important;
+    background: white !important;
   }
 }
 </style>
