@@ -92,6 +92,25 @@ nav ul li:hover > .submenu {
     margin-right: auto;
   }
 }
+
+/* 홈화면 전용 보정 */
+body.index header,
+body.index nav {
+  position: relative;
+  z-index: 20000 !important;
+}
+body.index nav ul li .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20001 !important;
+  background: white;
+}
+body.index .carousel,
+body.index .hero {
+  position: relative;
+  z-index: 1 !important;
+}
 </style>
 
 
