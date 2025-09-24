@@ -4,26 +4,29 @@
 
 <style>
 @media screen and (max-width: 768px) {
-  /* 상단 메뉴 항상 한 줄 */
+  /* 메인 메뉴: 무조건 한 줄, 매우 작게 (4px) */
   nav ul {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    overflow: hidden;
-    white-space: nowrap;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    white-space: nowrap !important;
   }
   nav ul li {
-    font-size: 10px;   /* 더 축소 */
-    margin: 0 2px;     /* 최소 간격 */
-    padding: 0 2px;
+    font-size: 4px !important;     /* 극소 크기 */
+    margin: 0 1px !important;
+    padding: 0 1px !important;
+    line-height: 1.2 !important;
   }
 
-  /* 서브메뉴 축소 및 캐러셀 위 표시 */
+  /* 서브메뉴: 작게, 항상 캐러셀 위에 */
   nav ul li .submenu {
-    font-size: 10px;
-    max-width: 90vw;   /* 화면 너비 제한 */
-    z-index: 9999;     /* 캐러셀보다 항상 위 */
-    position: relative;
+    font-size: 4px !important;
+    line-height: 1.2 !important;
+    padding: 1px 2px !important;
+    z-index: 99999 !important;
+    position: absolute !important;
+    background: white !important;
   }
 }
 </style>
@@ -711,24 +714,93 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 <ul>
 <li><b>产品设计过程（实用）</b> – 互联网书店销售</li>
 </ul>
-<h2>奖</h2>
-<figure class="tib-figure"><img src="../assets/sang.jpg"/></figure>
-<ul>
-<li><b>公共成就奖。</b> – 高速长寿命部件的成功开发。</li>
-</ul>
-<h2>培训和证书的完成。</h2>
-<table>
-<body>
-<div class="wrap">
-<tr>
-<td class="group" rowspan="1"><figure><img src="../assets/marketing.jpg"/></figure><ul><li><b>市场营销规划专家一级</b></li></ul></td>
-<td class="group"><figure><img src="../assets/jinro.jpg"/></figure><ul><li><b>职业适应顾问一级</b></li></ul></td>
-<td class="group"><figure><img src="../assets/banggwa.jpg"/></figure><ul><li><b>一流的课后辅导员</b></li></ul></td>
-</tr>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificates</title>
+  <style>
+   /* 기본: 반응형 (훈련·자격증) */
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
 
-</div></body></table>
-<figure class="tib-figure"><img src="../assets/dron.jpg"/></figure>
-<ul><li><b>完成四种飞行设备培训</b></li></ul>
+/* Award, Education: 항상 4등분 → 1/4 크기만 차지 */
+.certificate-grid.fixed-quarters {
+  grid-template-columns: repeat(4, 1fr);
+}
+.certificate-item {
+  text-align: center;
+}
+.certificate-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+  </style>
+</head>
+<body>
+
+<h2>奖</h2>
+<div class="certificate-grid fixed-quarters">
+  <div class="certificate-item">
+    <figure><img src="../assets/sang.jpg" alt="Award"></figure>
+    <ul><li><b>公共成就奖。</b> – 高速长寿命部件的成功开发。</li></ul>
+  </div>
+</div>
+
+  <h2>培训和证书的完成</h2>
+  <div class="certificate-grid">
+    <div class="certificate-item">
+      <figure><img src="../assets/marketing.jpg" alt="Marketing Planning"></figure>
+      <ul><li><b>市场营销规划专家一级</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/jinro.jpg" alt="Career Counselor"></figure>
+      <ul><li><b>职业适应顾问一级</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/banggwa.jpg" alt="After-school Instructor"></figure>
+      <ul><li><b>一流的课后辅导员</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/wine.jpg" alt="Wine Sommelier"></figure>
+      <ul><li><b>一流的葡萄酒侍酒师</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/big.jpg" alt="Big Data"></figure>
+      <ul><li><b>一级大数据专家</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/esg.jpg" alt="ESG Consultant"></figure>
+      <ul><li><b>一级环境、社会和治理顾问</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/3d.jpg" alt="3D Printer"></figure>
+      <ul><li><b>三维打印机讲师一级</b></li></ul>
+    </div>
+    <div class="certificate-item">
+      <figure><img src="../assets/carbon.jpg" alt="Carbon Neutral Instructor"></figure>
+      <ul><li><b>碳中和教育讲师一级</b></li></ul>
+    </div>
+  </div>
+
+
+<h2>教育证书</h2>
+<div class="certificate-grid fixed-quarters">
+  <div class="certificate-item">
+    <figure><img src="../assets/dron.jpg" alt="Drone Training"></figure>
+    <ul><li><b>完成四种飞行设备培训</b></li></ul>
+  </div>
+</div>
+</body>
+</html>
+
 </section></div><footer>ⓒ M.O.T. All rights reserved.</footer>
 <script>
 (function(){
