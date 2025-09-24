@@ -3,6 +3,11 @@
 <html lang="ko"><head>
 
 <style>
+/* 공통: 서브메뉴 hover로 표시 */
+nav ul li:hover .submenu {
+  display: block !important;
+}
+
 /* 모바일 전용 */
 @media screen and (max-width: 768px) {
   body {
@@ -13,7 +18,6 @@
     overflow-x: hidden;
   }
 
-  /* 본문 컨테이너, 이미지 중앙 정렬 */
   .container, .main, .content, .box, .section, .footer {
     margin-left: auto !important;
     margin-right: auto !important;
@@ -25,7 +29,6 @@
     margin-right: auto !important;
   }
 
-  /* 메뉴 */
   nav ul {
     display: flex !important;
     flex-wrap: nowrap !important;
@@ -33,17 +36,22 @@
     white-space: nowrap !important;
   }
   nav ul li {
-    font-size: 10px !important;
+    font-size: 10px !important;   /* 모바일은 10px */
     margin: 0 2px !important;
     padding: 0 2px !important;
     line-height: 1.2 !important;
+    position: relative;
   }
   nav ul li .submenu {
+    display: none;
     font-size: 10px !important;
     padding: 2px 4px !important;
     z-index: 9999 !important;
     position: absolute !important;
     background: white !important;
+  }
+  nav ul li:hover .submenu {
+    display: block !important; /* hover 시 표시 */
   }
 }
 
@@ -51,17 +59,29 @@
 @media screen and (min-width: 1024px) {
   nav ul {
     display: flex;
-    justify-content: center;   /* 메뉴 중앙 배치 */
+    justify-content: center;
   }
   nav ul li {
-    font-size: 14px;           /* PC 해상도용 글자 크기 */
+    font-size: 14px !important;   /* 모든 페이지 동일하게 14px */
     margin: 0 8px;
     padding: 0 4px;
+    position: relative;
   }
+  nav ul li .submenu {
+    display: none;
+    font-size: 14px !important;   /* PC 서브메뉴도 동일하게 14px */
+    position: absolute;
+    background: white;
+    z-index: 9999;
+  }
+  nav ul li:hover .submenu {
+    display: block;   /* 마우스 오버 시 표시 */
+  }
+
   .container, .main, .content, .box, .section, .footer {
     margin-left: auto;
     margin-right: auto;
-    max-width: 1200px;         /* 중앙 배치 폭 제한 */
+    max-width: 1200px;
   }
   img {
     display: block;
