@@ -923,6 +923,206 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 }
 
 </style>
+<style>
+
+/* ==========================
+   HOTFIX V2 (portrait only)
+   - Keep menu readable (no micro font): use horizontal scroll instead of squeezing
+   - Ensure #pageScale centers correctly
+   ========================== */
+@media (orientation: portrait) {
+  /* Home scale root centering stability */
+  #pageScale{
+    display:block;
+    box-sizing:border-box;
+    transform: scale(0.35);
+    transform-origin: top center;
+    width: calc(100% / 0.35);
+    margin: 0 auto;
+    max-width: none;
+  }
+
+  /* Main menu: one line, scrollable horizontally, readable sizing */
+  header.navbar .menu{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;       /* start align so items flow left->right */
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    overflow-x: auto;                  /* allow swipe scrolling */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 8px;
+  }
+  header.navbar .menu > li{
+    flex: 0 0 auto;                    /* do not shrink text too small */
+    min-width: auto;
+    display: inline-flex;
+  }
+  header.navbar .menu a{
+    font-size: clamp(13px, 3.2vw, 16px); /* keep readable */
+    padding: 8px 10px;
+  }
+
+  /* Keep header height consistent */
+  header.navbar{ line-height: 1.2; }
+}
+
+</style>
+<style>
+
+/* ==========================================
+   HOTFIX V3 — Narrow desktop (<=1024px)
+   - Keep main menu in a single horizontal row with horizontal scroll
+   - Prevent giant pill buttons and overlapping hero/carousel
+   ========================================== */
+@media (max-width: 1024px) and (orientation: landscape), (max-width: 900px) {
+  header.navbar .menu{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;                 /* no wrapping */
+    justify-content: flex-start;       /* left align, allow scrolling */
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    overflow-x: auto;                  /* swipe/scroll horizontally */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 8px;
+  }
+  header.navbar .menu > li{
+    flex: 0 0 auto;                    /* don't stretch into giant pills */
+    min-width: auto;
+    display: inline-flex;
+  }
+  header.navbar .menu a{
+    display:block;
+    padding: 8px 12px;                 /* compact height */
+    line-height: 1.2;
+    font-size: clamp(12px, 1.4vw, 15px);
+    border-radius: 10px;
+  }
+
+  /* ensure hero/carousel always fits the viewport width and isn't pushed */
+  .hero, .carousel, .hc-slider, .hc-track, .hc-slide{
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+
+</style>
+<style>
+
+/* ==========================================
+   V4 — MOBILE (portrait) SPEC
+   - Main menu font 8px, gap 1px, single line with horizontal scroll
+   - Submenu overlay above carousel
+   - Home scale 0.35 centered
+   - Carousel remains functional under scale
+   ========================================== */
+@media (orientation: portrait) {
+  :root { --header-h: 60px; }
+
+  /* Home scale root centered */
+  #pageScale{
+    display:block;
+    box-sizing:border-box;
+    transform: scale(0.35);
+    transform-origin: top center;
+    width: calc(100% / 0.35);
+    margin: 0 auto;
+    max-width: none;
+  }
+
+  /* Main menu: one line, tiny font + 1px gap, horizontal scroll */
+  header.navbar .menu{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    align-items:center;
+    gap:1px;
+    white-space:nowrap;
+    overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding:0 4px;
+  }
+  header.navbar .menu > li{ flex:0 0 auto; display:inline-flex; min-width:auto; }
+  header.navbar .menu a{
+    font-size:8px;               /* per user request */
+    padding:4px 6px;
+    line-height:1.2;
+  }
+
+  /* Submenu: fixed overlay below header, above carousel */
+  header.navbar .menu > li{ position:static; }
+  header.navbar .menu > li > .submenu{
+    position:fixed;
+    inset: var(--header-h) 0 auto 0;
+    display:none;
+    z-index:5000;                /* above carousel */
+    background:#fff;
+    border-top:1px solid rgba(0,0,0,.08);
+    box-shadow:0 8px 18px rgba(0,0,0,.14);
+    /* layout: grid, no internal scroll */
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-rows:minmax(32px,auto);
+    gap:8px;
+    padding:10px 12px;
+    max-height: calc(100vh - var(--header-h));
+    overflow:hidden;
+  }
+  header.navbar .menu > li:focus-within > .submenu{ display:grid; }
+  @media (hover:hover) and (pointer:fine){
+    header.navbar .menu > li:hover > .submenu{ display:grid; }
+  }
+
+  /* Language switch center (if present) */
+  header.navbar .lang-switch{ display:flex; justify-content:center; align-items:center; gap:6px; }
+
+  /* Carousel containment */
+  .hero, .carousel, .hc-slider, .hc-track, .hc-slide{
+    position:relative; z-index:1; width:100%; max-width:100%; overflow:hidden;
+    min-width:0;
+  }
+
+  /* Prevent closed overlays blocking interactions */
+  .submenu[aria-hidden="true"], .submenu.is-closed{ display:none !important; }
+}
+
+
+
+/* ==========================================
+   V4 — Narrow desktop stability (<=1024px)
+   - Keep menu single row with horizontal scroll
+   - Avoid oversized pills; carousel full width
+   ========================================== */
+@media (max-width: 1024px) and (orientation: landscape), (max-width: 900px){
+  header.navbar .menu{
+    display:flex; flex-direction:row; flex-wrap:nowrap;
+    justify-content:flex-start; align-items:center;
+    gap:6px; white-space:nowrap;
+    overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    padding:0 8px;
+  }
+  header.navbar .menu > li{ flex:0 0 auto; display:inline-flex; }
+  header.navbar .menu a{ font-size:12px; padding:8px 10px; line-height:1.2; }
+  .hero, .carousel, .hc-slider, .hc-track, .hc-slide{ width:100%; max-width:100%; overflow:hidden; }
+}
+
+</style>
+
+<script>
+// Reflow carousels after scale/layout changes so slides advance under 0.35 scale
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 80);
+});
+</script>
+
 </head><body>
 <header class="navbar">
 <div class="inner">
