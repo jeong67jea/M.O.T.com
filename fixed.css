@@ -1,0 +1,22 @@
+
+/* ---- fixed.css (Non-Responsive, 1280px baseline) ---- */
+#fixed-site, #fixed-site * { box-sizing: border-box; }
+#fixed-site{ width:1280px; min-width:1280px; margin:0 auto; overflow:visible; }
+#fixed-site img, #fixed-site video, #fixed-site canvas{ width:auto; height:auto; max-width:none; }
+#fixed-site .row, #fixed-site .col, #fixed-site .grid, #fixed-site .container, 
+#fixed-site .wrapper, #fixed-site .section{ width:1280px !important; max-width:1280px !important; }
+html, body, #fixed-site { font-size:16px; }
+#fixed-site h1{ font-size:28px; } #fixed-site h2{ font-size:22px; } #fixed-site p{ font-size:16px; }
+html, body { overflow-x:hidden; overflow-y:auto; }
+#fixed-site header, #fixed-site nav, #fixed-site .topnav { position:relative; z-index:1000; }
+#fixed-site nav ul, #fixed-site .topnav ul, #fixed-site .menubar, #fixed-site .menu {
+  display:flex; flex-wrap:nowrap; gap:12px; margin:0; padding:0; list-style:none; overflow:visible; white-space:nowrap;
+}
+#fixed-site nav ul>li, #fixed-site .topnav ul>li { position:relative; flex:0 0 auto; }
+#fixed-site nav ul>li>a, #fixed-site .topnav ul>li>a { display:inline-block; max-width:12ch; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#fixed-site .submenu, #fixed-site nav ul li > ul { position:absolute; top:100%; left:0; display:none; overflow:visible; width:auto; z-index:2000; }
+#fixed-site .menu-item:hover > .submenu, #fixed-site nav ul li:hover > ul, #fixed-site nav ul li:focus-within > ul { display:block; }
+#fixed-site .carousel, #fixed-site .hero, #fixed-site #hero, #fixed-site #carousel{ position:relative; width:1280px; height:420px; overflow:hidden; z-index:1; }
+#fixed-site .carousel img, #fixed-site .hero img, #fixed-site #hero img, #fixed-site #carousel img{ position:absolute; inset:0; width:1280px; height:420px; object-fit:cover; }
+#fixed-site .section{ width:1280px; min-height:720px; }
+@media (min-width: 769px){ #fixed-site .hamburger, #fixed-site .menu-toggle, #fixed-site .nav-toggle, #fixed-site .mobile-only { display:none !important; } }
