@@ -1,0 +1,62 @@
+/* Minimal non-destructive tweaks */
+p, h1, h2, h3, h4, h5, h6, li, td, th, div{ overflow-wrap:anywhere; word-break:keep-all; }
+img{ max-width:100%; height:auto; }
+html, body{ overflow:auto; }
+
+
+/* === Header/Nav left-align on ALL pages === */
+header, .top-nav, nav, header .inner, .top-nav .inner, nav .inner {
+  display:flex; align-items:center; gap:16px;
+}
+header, .top-nav, nav { text-align:left !important; }
+header .logo, nav .brand, nav .company, nav h1 { margin-right:12px; line-height:1; }
+nav ul, .menu, .gnb, .nav-list, .site-nav, .global-nav {
+  list-style:none; margin:0; padding:0; display:flex; gap:24px;
+}
+nav ul, .menu, .gnb, .nav-list, .site-nav, .global-nav {
+  justify-content:flex-start !important; align-items:center;
+}
+/* Right-side group (language/search) stays at far right */
+nav .right, .tools, .lang, .language, .lang-group, .language-group, form[role="search"], .search {
+  margin-left:auto !important; display:flex; align-items:center; gap:8px;
+}
+
+
+/* === Site-wide .hc-slider gap killer (fixed height + cover) === */
+.hc-slider, .hero, .mot-hero{
+  height:432px !important;
+  position:relative !important;
+  overflow:hidden !important;
+}
+.hc-track{ height:100% !important; display:flex !important; }
+.hc-slide{
+  flex:0 0 100% !important;
+  width:100% !important;
+  height:100% !important;
+  position:relative !important;
+}
+.hc-slide > img, .hc-slide picture img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block !important;
+}
+.hc-slide[style*="background"], .hc-slide [style*="background-image"]{
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+}
+.hc-dots, .hc-pager, .hc-controls{
+  position:absolute !important; left:0; right:0; bottom:10px !important;
+  margin:0 !important; padding:0 !important;
+  background:transparent !important; line-height:0 !important;
+}
+.hc-slider + *, .hero + *, .mot-hero + *{
+  margin-top:0 !important; padding-top:0 !important; border-top:0 !important;
+}
+.hc-slider, .hero, .mot-hero{ margin-bottom:-1px !important; }
+
+@media (max-width: 820px){
+  /* Keep same height or adjust if desired */
+  .hc-slider, .hero, .mot-hero{ height:432px !important; }
+}
