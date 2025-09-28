@@ -1,0 +1,11 @@
+/* === Site-wide slider gap fix (PC-safe): no height overrides === */
+.bx-wrapper, .hc-slider, .hero, .mot-hero { margin-bottom: 0 !important; }
+.bx-wrapper .bx-viewport, .hc-slider, .hero, .mot-hero { position: relative !important; }
+.bx-wrapper .bx-pager, .bx-wrapper .bx-controls, .hc-dots, .hc-pager, .hc-controls {
+  position: absolute !important; left: 0; right: 0; bottom: 10px !important;
+  margin: 0 !important; padding: 0 !important; background: transparent !important; line-height: 0 !important;
+}
+.bx-wrapper img, .hc-slide img, .hero img { display: block !important; }
+.bx-wrapper + *, .hc-slider + *, .hero + *, .mot-hero + * {
+  margin-top: 0 !important; padding-top: 0 !important; border-top: 0 !important;
+}
