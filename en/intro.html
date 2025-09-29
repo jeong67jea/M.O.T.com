@@ -43,10 +43,7 @@ nav ul li:hover > .submenu {
 /* 모바일 전용 */
 @media screen and (max-width: 768px) {
   body {
-    transform: scale(0.35);
-    transform-origin: top left;
-    width: 285%;
-    height: auto;
+
   }
   nav ul {
     display: flex !important;
@@ -800,8 +797,7 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   .container, .section, .box, .panel, .card{ padding:8px; }
   .container, .wrap, main, .content, .leader-banner, .cards-3, .icon-strip{ width:100% !important; max-width:100% !important; }
 }
-.page-scale{ transform-origin: top center; width:100%; }
-.page-scale[data-scale]{ --s: attr(data-scale number); transform: scale(var(--s)); width: calc(100% / var(--s)); }
+
 </style>
 
 <style id="remove-about-box-only">
@@ -840,8 +836,8 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 
 <style>
 
-/* === Fixed UI overrides (v1 baseline, NO mobile scale) === */
-/* Desktop: prevent shrink, one-line main menu, header no vertical scroll */
+/* === Fixed UI overrides (v1 SAFE, NO mobile scale) === */
+/* Desktop: prevent shrink, keep one-line menu, keep header tidy */
 @media (min-width: 1025px) {
   html, body { min-width: 1920px; }
   header, nav { position: relative; z-index: 9998; }
@@ -851,31 +847,139 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   header, .topbar, .topnav, nav { overflow-y: visible; max-height: 140px; }
 }
 
-/* Submenu should always overlay above carousel */
+/* Submenu overlays over carousels at all sizes */
 .submenu, nav .submenu, .dropdown-menu, .mega-menu { position: absolute; z-index: 9999; }
 header, nav, .site-header { position: relative; z-index: 9998; }
 .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
   position: relative; z-index: 1;
 }
 
-/* Mobile portrait: NO transform scale; keep header fixed and submenu visible */
+/* Mobile portrait: NO scale; keep header fixed, submenu just under header */
 @media (max-width: 1024px) and (orientation: portrait) {
-  /* Do NOT set fixed width or scale */
   header, .topbar, .topnav, nav { position: fixed; top: 0; left: 0; right: 0; }
-  /* Place submenu below fixed header */
   .submenu, nav .submenu, .dropdown-menu, .mega-menu {
     position: fixed;
-    top: 140px; /* adjust if your header height differs */
+    top: 140px; /* adjust if actual header height differs */
     left: 0; right: 0;
   }
-  /* Prevent clipping */
+  /* avoid clipping within header area */
   header, nav, .topnav, .topbar { overflow: visible; }
 }
 
+/* General safety */
 header, nav, .topnav, .topbar, .site-header { overflow: visible; }
 * { backface-visibility: hidden; }
 
 </style>
+
+<style>
+
+/* === Neutralize page-scale utility to prevent any auto-shrink === */
+.page-scale,
+.page-scale[data-scale]{
+  transform: none;
+  width: 100%;
+}
+
+</style>
+
+<style>
+
+/* === HARD KILL of any page scaling (scoped) === */
+/* Purpose: prevent any residual/JS-applied inline transform-based shrinking */
+html, body,
+.page-scale, .page-scale[data-scale],
+#profile .pd6v4-scope .pd6v4 {
+  transform: none !important;
+  zoom: 1 !important;
+}
+
+/* Keep layout policy from v1 */
+@media (min-width: 1025px) {
+  html, body { min-width: 1920px; }
+  header, nav { position: relative; z-index: 9998; }
+  header nav ul, nav .menu, .topnav ul, .main-menu, .main-menu > ul {
+    display:flex; flex-wrap:nowrap; white-space:nowrap;
+  }
+  header, .topbar, .topnav, nav { overflow-y: visible; max-height: 140px; }
+}
+.submenu, nav .submenu, .dropdown-menu, .mega-menu { position: absolute; z-index: 9999; }
+header, nav, .site-header { position: relative; z-index: 9998; }
+.carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container { position: relative; z-index: 1; }
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  header, .topbar, .topnav, nav { position: fixed; top:0; left:0; right:0; }
+  .submenu, nav .submenu, .dropdown-menu, .mega-menu { position: fixed; top:140px; left:0; right:0; }
+}
+
+</style>
+
+<style>
+
+/* === V9: Global min-width + kill any inline scale === */
+/* Always prevent layout shrink (PC/mobile 모두) */
+html, body { min-width: 1920px; }
+
+/* Neutralize any inline/runtime scale without touching translate/rotate */
+[style*="transform: scale"], [style*="scale("] {
+  transform: none !important;
+}
+[style*="zoom"] { zoom: 1 !important; }
+
+/* Keep v1 overlay/menu constraints */
+@media (min-width: 1025px) {
+  header, nav { position: relative; z-index: 9998; }
+  header nav ul, nav .menu, .topnav ul, .main-menu, .main-menu > ul {
+    display:flex; flex-wrap:nowrap; white-space:nowrap;
+  }
+  header, .topbar, .topnav, nav { overflow-y: visible; max-height: 140px; }
+}
+.submenu, nav .submenu, .dropdown-menu, .mega-menu { position: absolute; z-index: 9999; }
+header, nav, .site-header { position: relative; z-index: 9998; }
+.carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container { position: relative; z-index: 1; }
+
+</style>
+
+<!-- NAV anti-shrink lock (global) -->
+<style id="nav-anti-shrink-lock">
+@media (max-width: 3000px) {
+  /* kill any zoom/text auto-adjust in header/nav */
+  header, .site-header, .topbar, .navbar,
+  header *, .site-header *, .topbar *, .navbar * {
+    zoom: 1 !important;
+    -webkit-text-size-adjust: 100% !important;
+            text-size-adjust: 100% !important;
+  }
+
+  /* keep nav on one line without shrinking text */
+  header nav ul, .navbar nav ul, .topbar nav ul {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+
+  /* ensure submenu overlays above carousel */
+  nav .submenu, .dropdown-menu, .mega-menu {
+    position: absolute !important;
+    z-index: 20000 !important;
+  }
+
+  /* minimum readable size and line-height for anchors */
+  header nav a, header .menu a, .navbar nav a {
+    font-size: clamp(14px, 1rem, 18px) !important;
+    line-height: 24px !important;
+  }
+
+  /* prevent li from forcing smaller sizes */
+  header nav li, .navbar nav li, .topbar nav li {
+    font-size: inherit !important;
+  }
+}
+</style>
+
 </head><body>
 <header class="navbar">
 <div class="inner">
@@ -963,7 +1067,7 @@ header, nav, .topnav, .topbar, .site-header { overflow: visible; }
     bottom: var(--pad);
     width: clamp(120px, 20vw, 260px);
     max-width: 38%;
-    height: auto;
+
     display: block;
     pointer-events: none;
     user-select: none;
