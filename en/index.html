@@ -1018,7 +1018,7 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 
 <style>
 
-/* === Fixed UI overrides (per-file inline) === */
+/* === Fixed UI overrides (per-file inline) [v1 baseline + scale=0.8] === */
 @media (min-width: 1025px) {
   html, body { min-width: 1920px; }
   header, nav { position: relative; z-index: 9998; }
@@ -1035,14 +1035,14 @@ header, nav, .site-header { position: relative; z-index: 9998; }
 @media (max-width: 1024px) and (orientation: portrait) {
   html, body { width: 1920px; }
   body {
-    transform: scale(0.55);
+    transform: scale(0.8);
     transform-origin: top center;
     margin: 0 auto;
   }
   header, .topbar, .topnav, nav { position: fixed; top: 0; left: 0; right: 0; }
   .submenu, nav .submenu, .dropdown-menu, .mega-menu {
     position: fixed;
-    top: calc(140px * 0.55);
+    top: calc(140px * 0.8);
     left: 0; right: 0;
   }
   .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
