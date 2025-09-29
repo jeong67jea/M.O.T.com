@@ -1,0 +1,29 @@
+/* Page-specific carousel slot heights */
+/* Default (all pages): 360px */
+.hc-slider,
+.hero,
+.mot-hero,
+.bx-wrapper .bx-viewport {
+  height: 360px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.hc-track { height: 100% !important; display: flex !important; }
+.hc-slide { width:100% !important; height:100% !important; position:relative !important; flex:0 0 100% !important; }
+.hc-slide img,
+.hc-slide picture img,
+.hero img,
+.bx-wrapper .bx-viewport img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Home pages only: 420px (ko/en/cn) */
+body.home .hc-slider,
+body.home .hero,
+body.home .mot-hero,
+body.home .bx-wrapper .bx-viewport {
+  height: 420px !important;
+}

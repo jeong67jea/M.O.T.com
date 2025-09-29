@@ -1,0 +1,41 @@
+/* Unified carousel slot height: 420px (covers hc-slider, hero, bx) */
+.hc-slider,
+.hero,
+.mot-hero,
+.bx-wrapper .bx-viewport {
+  height: 420px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Ensure internal tracks/slides fill the slot */
+.hc-track { height: 100% !important; display: flex !important; }
+.hc-slide { width:100% !important; height:100% !important; position:relative !important; flex:0 0 100% !important; }
+
+/* Fill images/video to the slot (no letterbox) */
+.hc-slide img,
+.hc-slide picture img,
+.hero img,
+.bx-wrapper .bx-viewport img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Keep pagers/controls overlayed inside the slot */
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls,
+.hc-dots, .hc-pager, .hc-controls {
+  position: absolute !important;
+  left: 0; right: 0; bottom: 10px !important;
+  margin: 0 !important; padding: 0 !important;
+  background: transparent !important; line-height: 0 !important;
+}
+
+/* Remove extra gap above following sections */
+.hc-slider + *, .hero + *, .mot-hero + *, .bx-wrapper + * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: 0 !important;
+}
