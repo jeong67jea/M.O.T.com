@@ -1052,7 +1052,8 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 
 <style>
 
-/* === Fixed UI overrides (per-file inline) [v1 baseline + scale=0.8] === */
+/* === Fixed UI overrides (v1 baseline, NO mobile scale) === */
+/* Desktop: prevent shrink, one-line main menu, header no vertical scroll */
 @media (min-width: 1025px) {
   html, body { min-width: 1920px; }
   header, nav { position: relative; z-index: 9998; }
@@ -1061,30 +1062,28 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
   }
   header, .topbar, .topnav, nav { overflow-y: visible; max-height: 140px; }
 }
+
+/* Submenu should always overlay above carousel */
 .submenu, nav .submenu, .dropdown-menu, .mega-menu { position: absolute; z-index: 9999; }
 header, nav, .site-header { position: relative; z-index: 9998; }
 .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
   position: relative; z-index: 1;
 }
+
+/* Mobile portrait: NO transform scale; keep header fixed and submenu visible */
 @media (max-width: 1024px) and (orientation: portrait) {
-  html, body { width: 1920px; }
-  body {
-    transform: scale(0.8);
-    transform-origin: top center;
-    margin: 0 auto;
-  }
+  /* Do NOT set fixed width or scale */
   header, .topbar, .topnav, nav { position: fixed; top: 0; left: 0; right: 0; }
+  /* Place submenu below fixed header */
   .submenu, nav .submenu, .dropdown-menu, .mega-menu {
     position: fixed;
-    top: calc(140px * 0.8);
+    top: 140px; /* adjust if your header height differs */
     left: 0; right: 0;
   }
-  .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
-    transform-origin: bottom center;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+  /* Prevent clipping */
+  header, nav, .topnav, .topbar { overflow: visible; }
 }
+
 header, nav, .topnav, .topbar, .site-header { overflow: visible; }
 * { backface-visibility: hidden; }
 
