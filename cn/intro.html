@@ -836,88 +836,40 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 <style>
 
 /* === Fixed UI overrides (per-file inline) === */
-/* 1) Desktop fixed width: prevent shrink when window is narrowed */
 @media (min-width: 1025px) {
-  html, body {
-    min-width: 1920px;
-  }
-  header, nav {
-    position: relative;
-    z-index: 9998;
-  }
-  /* 2) Top main menu forced single line */
+  html, body { min-width: 1920px; }
+  header, nav { position: relative; z-index: 9998; }
   header nav ul, nav .menu, .topnav ul, .main-menu, .main-menu > ul {
-    display: flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    display: flex; flex-wrap: nowrap; white-space: nowrap;
   }
-  /* 4) Prevent vertical scroll growth in top bar */
-  header, .topbar, .topnav, nav {
-    overflow-y: visible;
-    max-height: 140px; /* assume fixed header height envelope */
-  }
+  header, .topbar, .topnav, nav { overflow-y: visible; max-height: 140px; }
 }
-
-/* 3) Submenus must overlay above carousel (always) */
-.submenu, nav .submenu, .dropdown-menu, .mega-menu {
-  position: absolute;
-  z-index: 9999; /* above any carousel */
-}
-header, nav, .site-header {
-  position: relative;
-  z-index: 9998;
-}
-/* Ensure carousels sit below header stack context */
+.submenu, nav .submenu, .dropdown-menu, .mega-menu { position: absolute; z-index: 9999; }
+header, nav, .site-header { position: relative; z-index: 9998; }
 .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
-  position: relative;
-  z-index: 1;
+  position: relative; z-index: 1;
 }
-
-/* 5) Mobile portrait: 0.35 scale, carousel bottom anchored to horizontal center */
 @media (max-width: 1024px) and (orientation: portrait) {
-  /* Freeze layout width similar to desktop but scaled visually */
-  html, body {
-    width: 1920px;   /* layout base */
-  }
-  /* Visual scale of entire page */
+  html, body { width: 1920px; }
   body {
-    transform: scale(0.35);
+    transform: scale(0.55);
     transform-origin: top center;
-    /* Center the scaled content on small screens */
     margin: 0 auto;
   }
-  /* Keep top bar visible and non-scrolling */
-  header, .topbar, .topnav, nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
-  /* Reserve interaction layer for dropdowns */
+  header, .topbar, .topnav, nav { position: fixed; top: 0; left: 0; right: 0; }
   .submenu, nav .submenu, .dropdown-menu, .mega-menu {
     position: fixed;
-    top: calc(140px * 0.35); /* appear below fixed header visually */
-    left: 0;
-    right: 0;
+    top: calc(140px * 0.55);
+    left: 0; right: 0;
   }
-  /* Carousel alignment: bottom edge sits near mid-screen horizontally centered */
   .carousel, .hero-carousel, .swiper, .slideshow, #carousel, .banner, .carousel-container {
     transform-origin: bottom center;
-    /* keep them horizontally centered in visual space */
     left: 50%;
     transform: translateX(-50%);
   }
 }
-
-/* General: make sure dropdowns aren't clipped by parents */
-header, nav, .topnav, .topbar, .site-header {
-  overflow: visible;
-}
-
-/* Avoid accidental stacking issues */
-* {
-  backface-visibility: hidden;
-}
+header, nav, .topnav, .topbar, .site-header { overflow: visible; }
+* { backface-visibility: hidden; }
 
 </style>
 </head><body>
