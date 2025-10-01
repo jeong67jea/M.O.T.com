@@ -1,112 +1,56 @@
 
-/* ===== Mobile Nav Overlay v1: portrait single-line header -> burger; submenu over carousel ===== */
-
-/* Default (desktop): do nothing special; ensure z-index sane */
-header.navbar{ position:relative; z-index: 10000; isolation:isolate; }
-header.navbar nav.primary{ position:relative; z-index: 10010; }
-
-/* Base burger hidden by default */
-.menu-toggle{ display:none; }
-.menu-burger{ display:none; user-select:none; cursor:pointer; padding:8px 10px; font-size:20px; border-radius:8px; }
-
-/* Mobile portrait (and generally touch) */
+/* ===== v4: iOS 100vw overflow fix + safe-area padding + overlay states ===== */
 @media (max-width: 768px), (hover: none){
-  /* Show burger, keep header single-line */
-  .menu-burger{ display:inline-block; }
-  header.navbar .inner{ display:flex; align-items:center; justify-content:space-between; gap:8px; white-space:nowrap; }
-  nav.primary .menu{ flex-wrap:nowrap; gap:8px; }
-  /* Collapse nav into overlay when toggled */
-  header.navbar:has(#menu-toggle:checked) nav.primary{
-    position: fixed;
-    inset: 0;
-    background: #ffffff;
-    z-index: 200000;
-    padding: 16px;
-    overflow-y: auto;
-  }
-  header.navbar:has(#menu-toggle:checked) .menu-burger{
-    position: fixed; top: 10px; right: 12px; z-index: 200010;
-  }
-  header.navbar:has(#menu-toggle:checked) nav.primary .menu{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  /* Submenu expanded inside overlay; never under carousel */
-  header.navbar:has(#menu-toggle:checked) nav.primary .submenu{
-    position: static;
-    display: block;
-    box-shadow: none;
-    border: none;
-    padding-left: 12px;
-    z-index: 200020;
-  }
-}
-
-/* Defensive: prevent horizontal scroll due to nav */
-html, body{ overflow-x: hidden; }
-
-/* ===== v2: Mobile overlay hardening ===== */
-
-/* Reset globals to avoid horizontal scroll from any element */
-html, body{ width:100%; max-width:100%; overflow-x:hidden; }
-*,
-*::before,
-*::after{ box-sizing: border-box; }
-
-/* Make all media/layout shrink to container on mobile */
-@media (max-width: 768px), (hover: none){
-  img, video, svg, canvas{ max-width:100%; height:auto; }
-  [style*="width:"], [style*="left:"], [style*="right:"], [style*="margin-left"], [style*="margin-right"]{
-    max-width:100% !important; left:auto !important; right:auto !important; margin-left:0 !important; margin-right:0 !important;
-  }
-  /* Keep header single-line: hide inline lang/search from header; show them in overlay only */
-  header.navbar .lang{ display:none !important; }
-  header.navbar nav.primary{ display:none; } /* hidden until burger toggled */
-  /* When burger toggled, show overlay */
+  /* Closed state */
+  header.navbar nav.primary{ display:none; }
+  /* Open overlay: avoid 100vw/100dvh; use inset + min-height, and svw/svh when available */
   header.navbar:has(#menu-toggle:checked) nav.primary{
     display:block;
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
-    background: #fff;
-    z-index: 200000;
-    padding: 18px;
-    overflow-y: auto;
+    position:fixed;
+    inset:0;
+    background:#fff;
+    z-index:200000;
+    padding: env(safe-area-inset-top, 0) 16px env(safe-area-inset-bottom, 0) 16px;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    min-height:100dvh;
   }
-  /* Body scroll lock while overlay is open */
-  body:has(#menu-toggle:checked){ overflow: hidden; }
-  header.navbar:has(#menu-toggle:checked) .menu-burger{ position: fixed; top: 10px; right: 12px; z-index: 200010; }
-  header.navbar:has(#menu-toggle:checked) nav.primary .menu{
-    display:flex; flex-direction:column; align-items:flex-start; gap:12px;
+  @supports (width: 100svw){
+    header.navbar:has(#menu-toggle:checked) nav.primary{
+      width:100svw;
+      min-height:100svh;
+    }
   }
-  header.navbar:has(#menu-toggle:checked) nav.primary .submenu{
-    position: static; display:block; box-shadow:none; border:none; padding-left:12px; z-index:200020;
-  }
-  /* Place language/search inside the overlay (reuse existing .lang DOM) */
-  header.navbar:has(#menu-toggle:checked) .lang{ display:flex !important; margin-top: 8px; }
+  /* Lock the page behind overlay */
+  body:has(#menu-toggle:checked){ overflow:hidden; overscroll-behavior:contain; }
+  html{ overflow-x:hidden; }
+  body{ max-width:100%; }
+  /* Keep header to one line */
+  header.navbar .inner{ display:flex; align-items:center; justify-content:space-between; gap:8px; white-space:nowrap; }
+  header.navbar .lang{ display:none !important; }
+  header.navbar:has(#menu-toggle:checked) .lang{ display:flex !important; margin-top:8px; }
+  .menu-burger{ display:inline-block; user-select:none; cursor:pointer; padding:8px 10px; font-size:20px; border-radius:8px; }
+  header.navbar:has(#menu-toggle:checked) .menu-burger{ position:fixed; top:10px; right:12px; z-index:200010; }
+  header.navbar:has(#menu-toggle:checked) nav.primary .menu{ display:flex; flex-direction:column; align-items:flex-start; gap:12px; }
+  header.navbar:has(#menu-toggle:checked) nav.primary .submenu{ position:static; display:block; box-shadow:none; border:none; padding-left:12px; z-index:200020; }
 }
 
-/* Carousel must never cause horizontal scroll */
-.hero, .carousel{ position:relative; z-index:1; overflow:hidden; }
+/* Global overflow guards */
+html, body{ max-width:100%; overflow-x:hidden; }
+*,
+*::before,
+*::after{ box-sizing:border-box; }
+:where(img, video, svg, canvas){ max-width:100%; height:auto; display:block; }
+:where([style*="width:" i]){ max-width:100% !important; }
+:where([style*="left:" i], [style*="right:" i]){ left:auto !important; right:auto !important; }
 
-/* ===== v3: Mobile carousel operability fixes ===== */
-.hero .carousel, .carousel{
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pan-y; /* allow swipe without blocking vertical scroll completely */
+/* Banners should not push width */
+[class*="hero"], [class*="banner"], .hero, .banner{
+  background-size:cover !important;
+  background-position:center !important;
+  background-repeat:no-repeat !important;
+  overflow:hidden;
 }
-.carousel .ctrl, .carousel .arrow, .carousel .dots{
-  pointer-events: auto !important;
-  position: absolute;
-  z-index: 100; /* over images */
-}
-/* Make sure header overlay doesn't block when closed */
-@media (max-width: 768px), (hover: none){
-  header.navbar nav.primary{ display:none; } /* closed state = none */
-  header.navbar:has(#menu-toggle:checked) nav.primary{ display:block; } /* open state only */
-}
+
+/* Carousel interaction preserved when overlay closed */
+.hero .carousel, .carousel{ position:relative; z-index:1; overflow:hidden; touch-action: pan-x pan-y; }
