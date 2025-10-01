@@ -10,7 +10,7 @@
     position: fixed !important;
     top: 0 !important;
     left: 50% !important;
-
+    transform-origin: top center !important;
     transform: translateX(-50%) scale(0.35) !important;
     margin: 0 !important;
   }

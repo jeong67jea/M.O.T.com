@@ -1,0 +1,206 @@
+
+/* ===== core_responsive_v7.css (r1) — breakpoint-free fluid + stable overlay ===== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+html, body { margin:0; padding:0; overflow-x:hidden; }
+img, video, canvas, svg { max-width:100%; height:auto; display:block; }
+
+:root{
+  --fs-base: clamp(14px, 1.05vw, 18px);
+  --fs-sm:   clamp(10px, 0.9vw, 16px);
+  --gap: clamp(4px, 1.0vw, 18px);
+  --gap-sm: clamp(2px, 0.8vw, 12px);
+}
+body { font-size: var(--fs-base); line-height: 1.5; }
+
+/* Header */
+header.navbar { position:relative; z-index: 9000; isolation:isolate; background:#fff; }
+header.navbar .inner { display:flex; align-items:center; justify-content:space-between; gap: var(--gap); min-width:0; }
+header.navbar .brand{ flex:0 0 auto; }
+header.navbar nav.primary{ flex:1 1 auto; min-width:0; }
+header.navbar .lang{ flex:0 0 auto; display:flex; align-items:center; gap: var(--gap-sm); }
+.lang .lang-link{ padding: clamp(4px, 0.6vw, 8px) clamp(6px, 0.8vw, 10px); font-size: var(--fs-sm); border-radius:6px; }
+.lang .site-search{ display:flex; align-items:center; gap: var(--gap-sm); }
+.lang .site-search input[type="search"]{ width: clamp(80px, 18vw, 260px); padding: clamp(4px, 0.6vw, 10px) clamp(6px, 0.8vw, 12px); font-size: var(--fs-sm); }
+.lang .site-search button{ padding: clamp(4px, 0.6vw, 10px) clamp(6px, 0.8vw, 12px); font-size: var(--fs-sm); }
+
+/* Menu */
+nav.primary .menu{ display:flex; flex-wrap:nowrap; align-items:center; gap: clamp(2px, 0.8vw, 14px); margin:0; padding:0; list-style:none; }
+nav.primary .menu > li{ white-space:nowrap; position:relative; }
+nav.primary .menu > li > a{ display:inline-block; padding: clamp(4px, 0.6vw, 10px) clamp(6px, 0.8vw, 12px); font-size: var(--fs-sm); line-height:1.25; }
+
+/* Submenu (default hidden; overlay handled by JS on desktop) */
+nav.primary .submenu{
+  position:absolute; top:100%; left:0;
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  display:none;
+  z-index: 9010;
+  padding: 8px;
+  width: max-content;
+  max-width: min(92vw, 560px);
+}
+nav.primary .submenu a{ display:block; padding:8px 12px; font-size: var(--fs-sm); white-space: normal; overflow-wrap:anywhere; word-break:keep-all; }
+
+/* Desktop hover still reveals (for non-JS or early state), JS upgrades to fixed overlay */
+@media (hover:hover) and (pointer:fine){
+  nav.primary .menu > li:hover > .submenu,
+  nav.primary .menu > li:focus-within > .submenu{ display:block; }
+}
+
+/* Carousel fully fluid (any zoom/aspect) */
+.hero, .carousel{ position:relative; z-index:1; }
+.hero .carousel, .carousel{
+  inline-size:100%;
+  block-size: clamp(200px, min(60dvh, 62svh), 78dvh);
+  max-block-size: 86dvh;
+  overflow:hidden;
+}
+.carousel .track{ display:flex; inline-size:100%; block-size:100%; transition: transform .4s ease; }
+.carousel .track > *{ flex:0 0 100%; inline-size:100%; block-size:100%; }
+.carousel img, .carousel video{ inline-size:100%; block-size:100%; object-fit:cover; }
+
+/* Table & text safety */
+.table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+table{ width:100%; border-collapse:collapse; }
+:where(p,li,td,th,h1,h2,h3,h4,h5,h6){ overflow-wrap:anywhere; }
+
+/* ===== v7r2: 초미세폭 우선 — 가독성 무시, 어떤 폭에서도 레이아웃 유지 ===== */
+
+/* 0) 더 낮은 하한으로 강제 수축 (글자/패딩/간격) */
+:root{
+  --fs-base: clamp(10px, 0.85vw, 18px);
+  --fs-sm:   clamp(8px,  0.75vw, 16px);
+  --gap:     clamp(2px,  0.8vw, 18px);
+  --gap-sm:  clamp(1px,  0.6vw, 12px);
+}
+/* 메뉴/언어/검색 최소 크기 더 낮춤 */
+nav.primary .menu{ gap: clamp(1px, 0.6vw, 14px); }
+nav.primary .menu > li > a{ padding: clamp(2px, 0.5vw, 10px) clamp(4px, 0.6vw, 12px); font-size: var(--fs-sm); }
+.lang .lang-link{ padding: clamp(2px, 0.5vw, 8px) clamp(4px, 0.6vw, 10px); font-size: var(--fs-sm); }
+.lang .site-search{ gap: clamp(2px, 0.6vw, 10px); }
+.lang .site-search input[type="search"]{ width: clamp(60px, 22vw, 260px); padding: clamp(2px, 0.5vw, 10px) clamp(4px, 0.6vw, 12px); font-size: var(--fs-sm); }
+.lang .site-search button{ padding: clamp(2px, 0.5vw, 10px) clamp(4px, 0.6vw, 12px); font-size: var(--fs-sm); }
+
+/* 1) 절대/고정폭 요소 방어: 어떤 1920 고정도 유동화 */
+[id*="1920"], [class*="1920"], [style*="1920px"], .canvas-1920, .page-1920, .wrap-1920{
+  width: 100% !important;
+  max-width: none !important;
+  transform: none !important;
+  left: auto !important; right: auto !important;
+}
+
+/* 2) 이미지/카드/섹션의 최소 여백 제거 — 초미세폭에서 맞물려도 OK */
+.section, .content, .container, .box, .card, .wrap, .wrapper{
+  padding-left: clamp(4px, 1.6vw, 24px);
+  padding-right: clamp(4px, 1.6vw, 24px);
+}
+img, video{ max-width:100%; height:auto; object-fit:cover; }
+
+/* 3) 캐러셀 높이도 더 수축 허용 */
+.hero .carousel, .carousel{
+  block-size: clamp(160px, min(56dvh, 60svh), 78dvh);
+}
+
+/* 4) 서브메뉴는 언제나 화면 내에 (고정 오버레이와 병행) */
+nav.primary .submenu{
+  max-width: min(96vw, 520px);
+  width: max-content;
+  overflow-wrap:anywhere;
+}
+
+/* 5) 어떤 폭에서도 가로 스크롤 금지 */
+html, body{ overflow-x:hidden; }
+main, .main, .content, .section, .wrap, .wrapper{ overflow: visible !important; }
+
+/* ===== v7r3: 초미세폭 하드닝 — 인라인 px 규칙 무력화 (브레이크포인트 없음) ===== */
+
+/* 0) 인라인 width/height px 강제 유동화 */
+:where([style*="width:"]){ max-width:100% !important; }
+:where([style*="height:"]){ max-height:100% !important; }
+:where(img[width], img[height]){ width:auto !important; height:auto !important; max-width:100% !important; }
+
+/* 1) 인라인 마진/패딩 px 축소 */
+:where([style*="margin-left"]){ margin-left:0 !important; }
+:where([style*="margin-right"]){ margin-right:0 !important; }
+:where([style*="padding-left"]){ padding-left:clamp(2px, 1vw, 24px) !important; }
+:where([style*="padding-right"]){ padding-right:clamp(2px, 1vw, 24px) !important; }
+
+/* 2) 절대 위치/좌표 px 방지: 상단 레이어 제외하고 기본 static으로 복귀 */
+:where(main, .main, .content, .section, .wrap, .wrapper) :where([style*="position:absolute"]){
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+}
+
+/* 3) 1920px 기반/캔버스류 유동화 (재확인) */
+[id*="1920"], [class*="1920"], [style*="1920px"], .canvas-1920, .page-1920, .wrap-1920{
+  width: 100% !important;
+  max-width: none !important;
+  transform: none !important;
+  left: auto !important; right: auto !important;
+}
+
+/* 4) 레이아웃 컨테이너는 한 칸 그리드로 강제 확장 */
+body > :where(main, .main, .content, .section, .wrap, .wrapper){
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* 5) 폰트/간격 하한 추가 인하 (가독성 무시) */
+:root{
+  --fs-base: clamp(8px, 0.6vw, 18px);
+  --fs-sm:   clamp(7px, 0.55vw, 16px);
+  --gap:     clamp(1px, 0.6vw, 18px);
+  --gap-sm:  clamp(1px, 0.5vw, 12px);
+}
+nav.primary .menu{ gap: var(--gap-sm); }
+nav.primary .menu > li > a{ padding: clamp(1px, 0.4vw, 10px) clamp(3px, 0.5vw, 12px); font-size: var(--fs-sm); }
+.lang .lang-link{ padding: clamp(1px, 0.4vw, 8px) clamp(3px, 0.5vw, 10px); font-size: var(--fs-sm); }
+.lang .site-search{ gap: var(--gap-sm); }
+.lang .site-search input[type="search"]{ width: clamp(48px, 20vw, 260px); padding: clamp(1px, 0.4vw, 10px) clamp(3px, 0.5vw, 12px); font-size: var(--fs-sm); }
+.lang .site-search button{ padding: clamp(1px, 0.4vw, 10px) clamp(3px, 0.5vw, 12px); font-size: var(--fs-sm); }
+
+/* 6) 캐러셀 최소 높이 더 축소 */
+.hero .carousel, .carousel{ block-size: clamp(120px, min(50dvh, 56svh), 78dvh); }
+
+/* 7) 어떤 경우에도 가로 스크롤 금지 */
+html, body{ overflow-x: hidden !important; }
+
+/* ===== v7r4: 초미세폭 안정화 + 100% 화면/비율에서 헤더 글자 크기 보정 ===== */
+
+/* 1) 헤더 타이포 비율 (1920x1080 같은 100% 화면에서 과대해 보이지 않도록) */
+:root{
+  --fs-base: clamp(12px, min(1.0vw, 1.0dvh), 18px);
+  --fs-sm:   clamp(11px, 0.80vw, 16px);
+}
+header.navbar .inner{ gap: clamp(6px, 1.0vw, 16px); }
+nav.primary .menu{ gap: clamp(6px, 0.9vw, 14px); }
+nav.primary .menu > li > a{ font-size: clamp(11px, 0.80vw, 15px); padding: clamp(6px, 0.6vw, 10px) clamp(8px, 0.8vw, 12px); }
+.lang .lang-link{ font-size: clamp(11px, 0.78vw, 14px); padding: clamp(4px, 0.6vw, 8px) clamp(6px, 0.8vw, 10px); }
+.lang .site-search input[type="search"]{ width: clamp(90px, 16vw, 260px); font-size: clamp(11px, 0.78vw, 14px); }
+.lang .site-search button{ font-size: clamp(11px, 0.78vw, 14px); }
+
+/* 2) 초미세폭 추가 보강 — 어떤 절대치도 레이아웃을 깨지 않도록 */
+:where([style*="max-width:"]){ max-width:100% !important; } /* max-width가 고정 px이면 강제 해제 */
+:where([style*="left:"], [style*="right:"]){ left:auto !important; right:auto !important; } /* 좌우 강제 좌표 해제 */
+:where([style*="top:"], [style*="bottom:"]){ top:auto !important; bottom:auto !important; }
+
+/* 3) 배경형 섹션(히어로/배너류) — 배경은 항상 화면에 맞춤 */
+[class*="hero"], [class*="banner"], .hero, .banner{
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* 4) 캐러셀 최소 높이/미디어 채움 보강 */
+.hero .carousel, .carousel{
+  block-size: clamp(110px, min(54dvh, 60svh), 78dvh);
+}
+.carousel img, .carousel video{ object-fit: cover; inline-size:100%; block-size:100%; }
+
+/* 5) 가로 스크롤/클리핑 전면 차단 유지 */
+html, body{ overflow-x: hidden !important; }
+main, .main, .content, .section, .wrap, .wrapper{ overflow: visible !important; }
