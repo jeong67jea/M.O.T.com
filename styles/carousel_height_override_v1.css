@@ -1,0 +1,18 @@
+
+/* ===== Carousel Height Override v1 (Home 420px, Others 360px) ===== */
+.hero .carousel, .carousel {
+  block-size: 360px !important;
+  min-block-size: 360px !important;
+  max-block-size: 360px !important;
+  height: 360px !important;
+  overflow: hidden;
+}
+body.home .hero .carousel, body.home .carousel {
+  block-size: 420px !important;
+  min-block-size: 420px !important;
+  max-block-size: 420px !important;
+  height: 420px !important;
+}
+.carousel .track, .carousel .slides { display:flex; inline-size:100%; block-size:100%; }
+.carousel .track > *, .carousel .slides > * { flex: 0 0 100%; inline-size:100%; block-size:100%; }
+.carousel img, .carousel video { inline-size:100%; block-size:100%; object-fit: cover; display:block; }
