@@ -1,0 +1,29 @@
+/* global_mot_override.css — force MOT background strip to exactly 150px */
+.mot, .mot-bg, .mot-strip, .bg-mot, .management-of-technology, section.mot, #mot, #mot-section,
+section[class*="mot"], div[class*="mot"], section[class*="bg-"], div[class*="bg-"],
+section[class*="hero"], div[class*="hero"], section[class*="banner"], div[class*="banner"] {
+  background-size: cover !important;
+  background-position: center center !important;
+}
+/* Only apply the 150px lock to likely MOT strips (thin banners) */
+.mot, .mot-bg, .mot-strip, .bg-mot, .management-of-technology, section.mot, #mot, #mot-section {
+  height: 150px !important;
+  min-height: 150px !important;
+  padding-top: 0 !important;
+  overflow: hidden !important;
+}
+/* Images inside banner/hero that try to set explicit height -> fit */
+.mot img, .mot-bg img, .mot-strip img, .bg-mot img, .management-of-technology img,
+section.mot img, #mot img, #mot-section img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Center text vertically in MOT strip */
+.mot, .mot-bg, .mot-strip, .bg-mot, .management-of-technology, section.mot, #mot, #mot-section {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}

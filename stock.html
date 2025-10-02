@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html><head><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<html><head>
 <style>
 /* 스크롤 방지 */
 html, body {
@@ -139,7 +139,7 @@ body.index .hero {
   }
 }
 </style>
-<meta charset="utf-8"/><style>@media (max-width:820px){header,.header,.navbar,nav{position:static!important;}body{background:#fff}}</style><style>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/><style>@media (max-width:820px){header,.header,.navbar,nav{position:static!important;}body{background:#fff}}</style><style>
 /* === Injected by ChatGPT: Mobile menu vertical + zero gap under carousel === */
 @media (max-width: 768px) {
   /* Make top menus stack vertically on small screens */
@@ -195,7 +195,21 @@ section:first-of-type, main > section:first-child, .content > section:first-chil
 <link href="styles/books-quals.css" rel="stylesheet"/>
 <link href="styles/patch-slot-420.css" rel="stylesheet"/>
 <link href="styles/patch-slot-split.css" rel="stylesheet"/>
-<link href="styles/core_responsive_v7.css" rel="stylesheet"/></head><body>
+<link href="styles/core_responsive_v7.css" rel="stylesheet"/><style>
+
+/* v1 override: Sub pages carousel fixed 360px */
+.hero, .hero .carousel, .carousel, .carousel-inner, .carousel-item {
+    height: 360px !important;
+    max-height: 360px !important;
+}
+.carousel-item img, .hero img, .carousel img {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+</style>
+<link href="styles/global_mot_override.css" rel="stylesheet"/></head><body>
 <!DOCTYPE html>
 
 <html lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>MOT</title><style>
