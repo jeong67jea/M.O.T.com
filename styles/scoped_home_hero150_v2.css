@@ -1,0 +1,33 @@
+
+/* scoped_home_hero150_v2.css — Homepage-only, hero 150px lock without global side-effects */
+/* 0) Reset risky global scale hacks on HOME only */
+body.home #pageScale, body.home .pageScale, body.home .page-scale, body.home .canvas-1920, body.home #canvas {
+  position: static !important;
+  width: auto !important;
+  max-width: 100% !important;
+  transform: none !important;
+}
+
+/* 1) Ensure carousel sits behind menus but above page background */
+body.home .hc-slider, body.home .hc-track, body.home .hc-slide { position: relative; z-index: 1; }
+body.home header, body.home nav, body.home .submenu { position: relative; z-index: 10000; isolation: isolate; }
+body.home nav .submenu { z-index: 10010; }
+
+/* 2) Carousel image quality guard (no stretched height) */
+body.home .hc-slide img { width: 100%; height: auto; object-fit: cover; image-rendering: auto; }
+
+/* 3) EXACTLY the strip below carousel: section.mot-hero — fix to 150px */
+body.home section.mot-hero {
+  height: 150px; min-height:150px;
+  display:flex; align-items:center; justify-content:center;
+  padding: 0;
+  background-size: cover; background-position: center center;
+  overflow: hidden;
+}
+
+/* 3-1) Typography inside strip: keep legible without changing text */
+body.home section.mot-hero .title { line-height:1.2; margin:0; }
+body.home section.mot-hero .title .accent-green { font-weight: 700; }
+
+/* 4) Avoid unintended matches: explicitly UNDO prior global overrides if present */
+section[class*="hero"], div[class*="hero"], section[class*="banner"] { height: auto; min-height: auto; }

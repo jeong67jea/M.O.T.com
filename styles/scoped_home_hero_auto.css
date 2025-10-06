@@ -1,0 +1,29 @@
+
+/* scoped_home_hero_auto.css — HOME only, no fixed height */
+/* Reset any legacy fixed heights on hero/banner if present */
+body.home section.mot-hero,
+body.home .mot-hero {
+  block-size: auto !important;
+  min-block-size: clamp(96px, 18vh, 240px) !important; /* flexible strip height */
+  padding-block: clamp(12px, 3vh, 28px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  overflow: hidden !important;
+}
+
+/* keep carousel quality and layering sane */
+body.home .hc-slider, body.home .hc-track, body.home .hc-slide { position: relative; z-index: 1; }
+body.home header, body.home nav, body.home .submenu { position: relative; z-index: 10000; isolation: isolate; }
+
+/* Images in slides remain proportionate */
+body.home .hc-slide img { width: 100%; height: auto; object-fit: cover; image-rendering: auto; }
+
+/* neutralize legacy fixed heights on hero-ish sections (HOME only) */
+body.home section[class*="hero"], body.home div[class*="hero"],
+body.home section[class*="banner"], body.home div[class*="banner"] {
+  height: auto !important;
+  min-height: auto !important;
+}
